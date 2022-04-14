@@ -27,6 +27,25 @@ module.exports = (app) => {
         (new Authenticated()).disconnect(req, res);
       });
       
+      app.get('/admin', (req, res) => {
+        let Dashboard = require('../src/controllers/Dashboard.js');
+        (new Dashboard()).print(req, res);
+    });
+
+    app.get('/admin/realty', (req, res) => {
+        let Realty = require('../src/controllers/Realty.js');
+        (new Realty()).print(req, res);
+    });
+ 
+    app.get('/admin/realty/form', (req, res) => {
+        let Realty = require('../src/controllers/Realty.js');
+        (new Realty()).printForm(req, res);
+    });
+
+    app.post('/admin/realty/form', (req, res) => {
+        let Realty = require('../src/controllers/Realty.js');
+        (new Realty()).process(req, res);
+    });
 
 };
   

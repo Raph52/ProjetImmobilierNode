@@ -7,7 +7,7 @@ require('dotenv').config()
 //--------------------------------------------------------------------
 //     Parse les données en POST
 //--------------------------------------------------------------------
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 //--------------------------------------------------------------------
 //      Ajout du midlleware express session
@@ -42,8 +42,36 @@ app.use(sassMiddleware({
     outputStyle: 'compressed'
 }));
 
+//--------------------------------------------------------------------
+//     Auto Connection en mode dev
+//--------------------------------------------------------------------
+
+if(process.env.APP_ENV === 'dev') {
+    app.use((req,res,next) => {
+        req.session.user = {
+            email: 'mctesty@test.fr',
+            civility: '1',
+            firstname: 'Testy',
+            lastname: 'McTest',
+            phone: '066655511'
+        };
+        next();
+    });
+}
+
+
+//--------------------------------------------------------------------
+//     Envoie des variables à PUG
+//--------------------------------------------------------------------
+
 app.use((req,res,next) => {
     res.locals.session = req.session;
+    next();
+});
+
+app.use((req,res,next) => {
+    res.locals.session = req.session;
+    res.locals.route = req._parsedUrl.pathname;
     next();
 });
 

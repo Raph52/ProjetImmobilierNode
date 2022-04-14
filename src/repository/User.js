@@ -1,4 +1,5 @@
 require('../../app/database.js');
+
 const mongoose = require('mongoose');
 const UserSchema = mongoose.Schema({
     email : {  type: String },

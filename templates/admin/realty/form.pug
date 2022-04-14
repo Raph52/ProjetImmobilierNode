@@ -1,0 +1,119 @@
+extends ../layout.pug
+ 
+block content
+    h1 Enregistrer un bien
+    if error
+        .alert.alert-danger= error
+ 
+        hr
+
+
+    form(action='/admin/realty/form' method="post")
+        fieldset 
+            legend  Adresse du bien
+            .input-group.mb-3
+                label Vendeur
+                .input-group-prepend
+                        i.fa.fa-user
+                input(type="text" class="form-control" placeholder="Nom de vendeur" name="realty[vendorName]")
+            
+            .input-group.mb-3
+                label Adresse
+                .input-group-prepend
+                input(type="text" class="form-control" placeholder="Adresse du bien" name="realty[address]")
+            .input-group.mb-3
+                .input-group-prepend
+                input(type="text" class="form-control" placeholder="Suite Adresse (facultatif)" name="realty[suiteAdress]")
+           
+            .input-group.mb-3
+                label Code postal
+                .input-group-prepend
+                input(type="number" class="form-control" placeholder="Code Postal" name="realty[zip]") 
+
+            .input-group.mb-3
+                label Information complémentaires
+                .input-group-prepend
+                input(type="text" class="form-control" placeholder="Distance des transports en commun, commerces de proximités etc" name="realty[infoComp]")
+
+        .row
+            .col-2
+                button.btn.btn-primary(type="submit") Enregistrer
+    //- h2 Contact du bien
+
+    //-     p Civilité
+    //-     .input-group.mb-3
+    //-         .input-group-prepend
+    //-             .input-group-text.d-none.d-lg-block 
+    //-                 i.fa.fa-restroom
+    //-         select(class="form-control" placeholder="Civilité" name="contact[civility]")
+    //-             option(value="1") Monsieur
+    //-             option(value="2") Madame
+
+    //-     p Nom
+    //-     .input-group.mb-3
+    //-         .input-group-prepend
+    //-             .input-group-text.d-none.d-lg-block
+    //-                 i.fa.fa-user
+    //-         input(type="text" class="form-control" placeholder="Nom" name="contact[lastname]")
+        
+    //-     p Prénom
+    //-     .input-group.mb-3
+    //-         .input-group-prepend
+    //-             .input-group-text.d-none.d-lg-block
+    //-                 i.fa.fa-user
+    //-         input(type="text" class="form-control" placeholder="Prénom" name="contact[firstname]")
+
+    //-     p Email
+    //-     .input-group.mb-3
+    //-         .input-group-prepend
+    //-             .input-group-text.d-none.d-lg-block
+    //-                 i.fa.fa-user
+    //-         input(type="text" class="form-control" placeholder="Adress mail" name="contact[mail]")
+
+    //-     p Téléphone
+    //-     .input-group.mb-3
+    //-         .input-group-prepend
+    //-             .input-group-text.d-none.d-lg-block
+    //-                 i.fa.fa-user
+    //-         input(type="number" class="form-control" placeholder="Téléphone" name="contact[phone]")
+
+        
+    //-     h2 Info du bien
+
+    //-         p Type de bien
+    //-         .input-group.mb-3
+    //-             .input-group-prepend
+    //-                 .input-group-text.d-none.d-lg-block 
+    //-         select(class="form-control" placeholder="Type" name="realtyInfo[type]")
+    //-             option(value="1") Maison
+    //-             option(value="2") Appartement
+
+    //-         p Prix net vendeur
+    //-         .input-group.mb-3
+    //-             .input-group-prepend
+    //-                 .input-group-text.d-none.d-lg-block
+    //-             input(type="number" class="form-control" placeholder="Prix net vendeur" name="realtyInfo[price]")
+            
+    //-         p Commission
+    //-         .input-group.mb-3
+    //-             .input-group-prepend
+    //-                 .input-group-text.d-none.d-lg-block
+    //-             input(type="number" class="form-control" placeholder="Montant de commission" name="realtyInfo[Commission]")
+
+    //-         p Surface (m²)
+    //-         .input-group.mb-3
+    //-             .input-group-prepend
+    //-                 .input-group-text.d-none.d-lg-block
+    //-             input(type="number" class="form-control" placeholder="Surface (en m²)" name="realtyInfo[surface]")
+
+    //-         p Pièces
+    //-             .input-group.mb-3
+    //-                 .input-group-prepend
+    //-                     .input-group-text.d-none.d-lg-block
+    //-                 input(type="number" class="form-control" placeholder="Nombre de pièces" name="realtyInfo[rooms]")
+
+    //-         p Type de ventes
+    //-         .input-group.mb-3
+    //-             .input-group-prepend
+    //-                 .input-group-text.d-none.d-lg-block
+    //-             input(type="number" class="form-control" placeholder="Téléphone" name="realtyInfo[phone]") 
