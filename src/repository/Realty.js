@@ -1,6 +1,11 @@
 require('../../app/database.js');
 
 const mongoose = require('mongoose');
+const slug = require('mongoose-slug-updater');
+mongoose.plugin(slug);
+
+
+
 const RealtySchema = mongoose.Schema({
     realty : {
         seller : { type: String },
@@ -30,7 +35,8 @@ const RealtySchema = mongoose.Schema({
         mobile : { type: String },
         phone : { type: String },
         info : { type: String },
-    }
+    },
+    slug: { type: String, slug: ['address.zipcode','address.city'], unique:true },
 }, { versionKey: false });
  
 module.exports = class Realty {
