@@ -42,22 +42,7 @@ app.use(sassMiddleware({
     outputStyle: 'compressed'
 }));
 
-//--------------------------------------------------------------------
-//     Auto Connection en mode dev
-//--------------------------------------------------------------------
 
-if(process.env.APP_ENV === 'dev') {
-    app.use((req,res,next) => {
-        req.session.user = {
-            email: 'mctesty@test.fr',
-            civility: '1',
-            firstname: 'Testy',
-            lastname: 'McTest',
-            phone: '066655511'
-        };
-        next();
-    });
-}
 
 
 //--------------------------------------------------------------------
