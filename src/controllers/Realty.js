@@ -22,7 +22,31 @@ module.exports = class Realty {
         res.render('admin/realty/form');  
     }
 
-    process(request, response) {
+
+    // printForm(request, response) {
+    //   if(typeof request.session === 'undefined' || typeof request.session.user === 'undefined') {
+    //       request.flash('error', `Vous devez être connecté pour accéder à l'administration.`);
+    //       response.redirect('/connexion');  
+    //       return;
+    //   }
+    //         // on est en modification
+    //         if(typeof request.params.id !== 'undefined') {
+    //           let repo = new RepoRealty();
+    //           repo.findById(request.params.id).then((realty) => {
+    //               response.render('admin/realty/form', {form : realty});
+    //           }, () => {
+    //               request.flash('error',`Le bien n'a pas été trouvé`)
+    //               response.redirect('/admin/realty');
+    //           });   
+    //       } 
+    //       // on est en ajout
+    //       else {
+    //           response.render('admin/realty/form', {form: { contact: {}, address : {}}});
+    //       }
+    //   }
+  
+
+  process(request, response) {
 
       let entity = {
          realty : request.body.realty,
@@ -59,5 +83,8 @@ module.exports = class Realty {
     }
   }
 
+
+
+  
 }
   

@@ -23,6 +23,13 @@
     "slug": "^5.3.0"
   },
   "devDependencies": {
-    "mocha": "^9.2.2"
-  }
+    "mocha": "^9.2.2",
+    "pre-commit": "^1.2.2"
+    
+  },
+
+  "pre-commit": {
+    "run": ["test"]
+}
+
 }
