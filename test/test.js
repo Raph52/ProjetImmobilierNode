@@ -49,7 +49,7 @@ describe('Utilisateurs', () => {
     });
 
     it(`Suppression d'un untilisateur`, (done) => {
-        // supprimer l'utilisateur
+        // test supprimer l'utilisateur 
         repo.delete({ email: entity.email }).then(() => {
             assert.ok(true);
             done();
