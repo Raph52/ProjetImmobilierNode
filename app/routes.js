@@ -47,5 +47,11 @@ module.exports = (app) => {
         (new Realty()).process(req, res);
     });
 
+    app.get('/admin/realty/delete/:id', (req, res) => {
+        let Realty = require('../src/controllers/Realty.js');
+        (new Realty()).delete(req, res);
+    });
+
+
 };
   

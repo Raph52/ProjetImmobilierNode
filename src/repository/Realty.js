@@ -43,7 +43,16 @@ module.exports = class Realty {
     constructor() {
         this.db = mongoose.model('Realty', RealtySchema); 
     }
- 
+
+    find(search = {}) {
+        return new Promise((resolve, reject) => {
+            this.db.find(search, function (err, realty) {
+                if (err) reject(err);
+                resolve(realty);
+            });
+        });
+    }
+
     add(RealtyEntity) {
         console.log(RealtyEntity)
         return new Promise((resolve, reject) => {
@@ -53,4 +62,15 @@ module.exports = class Realty {
             });
         });
     }
+
+    delete(filter = {}) {
+        return new Promise((resolve, reject) => {
+            this.db.deleteOne(filter, function (err) {
+                if (err) reject(err);
+                resolve();
+            });
+        });
+    }
+
+    
 }
