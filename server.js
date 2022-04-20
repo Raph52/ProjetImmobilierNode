@@ -34,19 +34,6 @@ app.set('views', path.join(__dirname, 'templates'));
 app.set('view engine', 'pug');
 
 
-if(process.env.APP_ENV === 'dev') {
-    app.use((req,res,next) => {
-        req.session.user = {
-            email: 'j.doe@yopmail.com',
-            civility: '1',
-            firstname: 'John',
-            lastname: 'Doe',
-            phone: '0656545859'
-        };
-        next();
-    });
-}
-
 
 //--------------------------------------------------------------------
 //     Mise en place du MIDlLEWARE SASS
