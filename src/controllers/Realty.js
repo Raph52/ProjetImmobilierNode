@@ -18,32 +18,32 @@ module.exports = class Realty {
     }
   }
 
-  printForm(req, res) {
-        res.render('admin/realty/form');  
-    }
+  // printForm(req, res) {
+  //       res.render('admin/realty/form');  
+  //   }
 
 
-    // printForm(request, response) {
-    //   if(typeof request.session === 'undefined' || typeof request.session.user === 'undefined') {
-    //       request.flash('error', `Vous devez être connecté pour accéder à l'administration.`);
-    //       response.redirect('/connexion');  
-    //       return;
-    //   }
-    //         // on est en modification
-    //         if(typeof request.params.id !== 'undefined') {
-    //           let repo = new RepoRealty();
-    //           repo.findById(request.params.id).then((realty) => {
-    //               response.render('admin/realty/form', {form : realty});
-    //           }, () => {
-    //               request.flash('error',`Le bien n'a pas été trouvé`)
-    //               response.redirect('/admin/realty');
-    //           });   
-    //       } 
-    //       // on est en ajout
-    //       else {
-    //           response.render('admin/realty/form', {form: { contact: {}, address : {}}});
-    //       }
-    //   }
+    printForm(request, response) {
+      if(typeof request.session === 'undefined' || typeof request.session.user === 'undefined') {
+          request.flash('error', `Vous devez être connecté pour accéder à l'administration.`);
+          response.redirect('/connexion');  
+          return;
+      }
+            // on est en modification
+            if(typeof request.params.id !== 'undefined') {
+              let repo = new RepoRealty();
+              repo.findById(request.params.id).then((realty) => {
+                  response.render('admin/realty/form', {form : realty});
+              }, () => {
+                  request.flash('error',`Le bien n'a pas été trouvé`)
+                  response.redirect('/admin/realty');
+              });   
+          } 
+          // on est en ajout
+          else {
+              response.render('admin/realty/form', {form: { realty: {}, contact : {}}});
+          }
+      }
   
 
   process(request, response) {
@@ -53,11 +53,21 @@ module.exports = class Realty {
          contact : request.body.contact
       };
       let repo = new RepoRealty();
-
-      repo.add(entity).then((Realty) => 
-      {
-        response.redirect('/admin')
-      })
+      if(typeof request.params.id !== 'undefined') {
+          repo.edit(request.params.id, entity).then((realty) => {
+            request.flash('notify', 'Le bien a été modifié.');
+            response.redirect('/admin/realty');
+        }, () => {
+            request.flash('error',`Le bien n'a pas été modifié`)
+            response.redirect('/admin/realty');
+        });   
+  
+      }else {
+        repo.add(entity).then((Realty) => 
+        {
+          response.redirect('/admin')
+        })
+      }
   };
 
   delete(request, response) {

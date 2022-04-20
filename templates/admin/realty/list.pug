@@ -39,12 +39,12 @@ block content
                                                 a.dropdown-item(href="tel:"+realty.contact.mobile) Appeler au #{realty.contact.mobile}
                                             if realty.contact.phone != ''
                                                 a.dropdown-item(href="tel:"+realty.contact.phone) Appeler au #{realty.contact.phone}
+                                td 
+                                    | #{realty.realty.address1}  
+                                    br  
+                                    | #{realty.realty.zipcode} #{realty.realty.city}
                                 td
-                                    #{realty.realty.address1}
-                                        br
-                                    #{realty.realty.zipcode} #{realty.realty.city}
-                                td
-                                    if realty.type == 1 
+                                    if realty.realty.type == 1 
                                         span Maison #{realty.realty.area}m² - #{realty.realty.room} piece(s)
                                     else if realty.realty.type == 2
                                         span Appartement  #{realty.realty.area}m² - #{realty.realty.room} piece(s)

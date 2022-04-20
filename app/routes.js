@@ -57,6 +57,10 @@ module.exports = (app) => {
         (new Realty()).printForm(req, res);
     });
 
+    app.post('/admin/realty/edit/:id', (req, res) => {
+        let Realty = require('../src/controllers/Realty.js');
+        (new Realty()).process(req, res);
+    });
 
 
 };

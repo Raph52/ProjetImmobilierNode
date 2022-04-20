@@ -10,7 +10,6 @@ const RealtySchema = mongoose.Schema({
     realty : {
         seller : { type: String },
         address1 : { type: String },
-        suiteAdress : { type: String },
         address2: { type: String },
         zipcode: { type: String },
         suiteAdress : { type: String },
@@ -34,7 +33,7 @@ const RealtySchema = mongoose.Schema({
         email : { type: String },
         mobile : { type: String },
         phone : { type: String },
-        info : { type: String },
+        info_realty : { type: String },
     },
     slug: { type: String, slug: ['address.zipcode','address.city'], unique:true },
 }, { versionKey: false });
@@ -72,5 +71,23 @@ module.exports = class Realty {
         });
     }
 
+    findById(search = {}) {
+        return new Promise((resolve, reject) => {
+            this.db.findById(search, function (err, realty) {
+                if (err) reject(err);
+                resolve(realty);
+            });
+        });
+    }
+
+    edit(id, entity) {
+
+        return new Promise((resolve, reject) => {
+            this.db.findOneAndUpdate({_id:id}, entity, function (err, realty) {
+                if (err) reject(err);
+                resolve(realty);
+            });
+        });
+    }
     
 }
