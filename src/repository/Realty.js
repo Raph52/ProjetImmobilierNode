@@ -12,8 +12,6 @@ const RealtySchema = mongoose.Schema({
         address1 : { type: String },
         address2: { type: String },
         zipcode: { type: String },
-        suiteAdress : { type: String },
-        zip: { type: String },
         city: { type: String },
         type : { type: String },
         price : { type: String },
@@ -33,7 +31,7 @@ const RealtySchema = mongoose.Schema({
         email : { type: String },
         mobile : { type: String },
         phone : { type: String },
-        info_realty : { type: String },
+        info_contact : { type: String },
     },
     slug: { type: String, slug: ['address.zipcode','address.city'], unique:true },
 }, { versionKey: false });

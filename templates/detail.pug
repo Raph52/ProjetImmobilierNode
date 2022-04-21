@@ -1,0 +1,43 @@
+extends layout.pug
+ 
+
+block content
+
+
+    img(src='/images/#{realty.id}/', alt='nophoto')  
+    img(src='/images/nophoto.png', alt='nophoto')
+    br
+    if realty.realty.type_product == 1 
+        span Maison #{realty.realty.area}m² - #{realty.realty.room} piece(s)
+    else if realty.realty.type == 2
+        span Appartement  #{realty.realty.area}m² - #{realty.realty.room} piece(s)
+    else if realty.realty.type == 3
+        span Terrain  #{realty.realty.area}m²
+    else if realty.realty.type == 4
+        span Parking
+    else if realty.realty.type == 5
+        span Local / Bureau
+    else 
+        span Autre
+    div #{realty.realty.price} €
+    br
+    br
+    div Adresse :
+    div #{realty.realty.address1}  
+    div #{realty.realty.address2} 
+    div #{realty.realty.zip} - #{realty.realty.city}
+
+    br
+    div
+    | Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+    br
+    | 
+    Rerum fuga quisquam deserunt necessitatibus eligendi iste, eveniet quos impedit.
+    br
+    | Accusamus hic earum quod ea asperiores quam nisi commodi in corrupti eius.
+    br
+    img(src='/images/exmap.PNG', alt='map')
+
+    div Contactez notre vendeur :
+    div #{realty.realty.seller}
+    br

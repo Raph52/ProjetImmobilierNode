@@ -1,4 +1,31 @@
 extends layout.pug
  
 block content
-    p Hello world
+    
+        .row.justify-content-center
+            each realty in realties 
+
+                .card.mb-4.col-3.mt-5.m-2(style='max-width: 540px;')
+                    .row.g-0
+                        .col-md-4
+                            img.img-fluid.rounded-start(src='/images/nophoto.png' alt='...')
+                        .col-md-8
+                            .card-body
+                                h5.card-title #{realty.realty.city} 
+                                p.card-text
+                                        if realty.realty.type == 1 
+                                            span Maison #{realty.realty.area}m² - #{realty.realty.room} piece(s)
+                                        else if realty.realty.type == 2
+                                            span Appartement  #{realty.realty.area}m² - #{realty.realty.room} piece(s)
+                                        else if realty.realty.type == 3
+                                            span Terrain  #{realty.realty.area}m²
+                                        else if realty.realty.type == 4
+                                            span Parking
+                                        else if realty.realty.type == 5
+                                            span Local / Bureau
+                                        else 
+                                            span Autre
+                                p.card-text
+                                | #{realty.realty.price} € 
+                                br         
+                                a.btn.btn-primary.mt-3(href='/detail/'+realty._id)  En savoir plus 

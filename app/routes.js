@@ -42,10 +42,21 @@ module.exports = (app) => {
         (new Realty()).printForm(req, res);
     });
 
-    app.post('/admin/realty/form', (req, res) => {
-        let Realty = require('../src/controllers/Realty.js');
-        (new Realty()).process(req, res);
+    
+
+    // app.post('/admin/realty/form', (req, res) => {
+    //     let Realty = require('../src/controllers/Realty.js');
+    //     (new Realty()).process(req, res);
+    // });
+    
+    app.post('/admin/realty/form', 
+            require('express-fileupload')({createParentPath: true}),
+            require('../src/services/LcParserService.js'), 
+        (req, res) => {
+            let Realty = require('../src/controllers/Realty.js');
+            (new Realty()).process(req, res);
     });
+
 
     app.get('/admin/realty/delete/:id', (req, res) => {
         let Realty = require('../src/controllers/Realty.js');
@@ -57,11 +68,24 @@ module.exports = (app) => {
         (new Realty()).printForm(req, res);
     });
 
-    app.post('/admin/realty/edit/:id', (req, res) => {
-        let Realty = require('../src/controllers/Realty.js');
-        (new Realty()).process(req, res);
+    // app.post('/admin/realty/edit/:id', (req, res) => {
+    //     let Realty = require('../src/controllers/Realty.js');
+    //     (new Realty()).process(req, res);
+    // });
+
+    app.post('/admin/realty/edit/:id', 
+            require('express-fileupload')({createParentPath: true}),
+            require('../src/services/LcParserService.js'), 
+        (req, res) => {
+            let Realty = require('../src/controllers/Realty.js');
+            (new Realty()).process(req, res);
     });
 
+
+    app.get('/detail/:id', (req, res) => {
+        let Detail = require('../src/controllers/Detail.js');
+        (new Detail()).print(req, res);
+    });
 
 };
   

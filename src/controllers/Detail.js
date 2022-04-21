@@ -1,11 +1,14 @@
 const RepoRealty = require('../repository/Realty.js')
 
-module.exports = class Home {
+module.exports = class Detail {
     print(request, response) {
         let repo = new RepoRealty();
-        repo.find().then((realties) => {
-            response.render('home', {realties});
+        repo.findById(request.params.id).then((realty) => {
+            response.render('detail', {realty})
         });
     }
 }
 
+
+
+ 

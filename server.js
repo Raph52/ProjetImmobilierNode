@@ -5,8 +5,6 @@ const sassMiddleware = require('node-sass-middleware');
 require('dotenv').config()
 
 
-
-
  
 //--------------------------------------------------------------------
 //     Parse les données en POST
@@ -21,10 +19,26 @@ app.use(session({
     secret: process.env.APP_KEY, resave:false, saveUninitialized:false, 
     cookie: {maxAge: 3600000} 
 }));
+
+if(process.env.APP_ENV === 'dev'){
+    app.use((req,res,next) => {
+        req.session.user = {
+            email: 'test@test.com',
+            civility: '1',
+            firstname: 'Testy',
+            lastname: 'McTest',
+            phone: '0645454545'
+        };
+        next();
+    });
+}
+
+
 //--------------------------------------------------------------------
 //      Ajout du midlleware express flash messages
 //--------------------------------------------------------------------
 const flash = require('express-flash-messages');
+const req = require('express/lib/request');
 app.use(flash());
 
 //--------------------------------------------------------------------

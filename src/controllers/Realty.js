@@ -1,74 +1,129 @@
-const RepoRealty = require('../repository/Realty.js')
-
+const RepoRealty = require('../repository/Realty');
+const UploadImageProductService = require('../services/UploadImageProduct')
 
 module.exports = class Realty {
-  print(request, response) {
-    if(typeof request.session.user !== 'undefined') {
+    print(request, response) {
+        if(typeof request.session.user === 'undefined') {
+            request.flash('error', `Vous devez être connecté pour accéder à l'administration.`);
+            response.redirect('/connexion');  
+        }
         let repo = new RepoRealty();
         repo.find().then((realties) => {
             response.render('admin/realty/list', {realties});
         });
-    } else {
-      // if(typeof request.session.user !== 'undefined') {
-      //    response.render('admin/realty/list');
-      //    return;
-      // }
-      request.flash('error', `Vous devez être connecté pour accéder à l'administration.`);
-      response.redirect('/connexion');  
     }
-  }
 
-  // printForm(req, res) {
-  //       res.render('admin/realty/form');  
-  //   }
+    
+
+
+
+
+
+
 
 
     printForm(request, response) {
-      if(typeof request.session === 'undefined' || typeof request.session.user === 'undefined') {
+      if(typeof request.session.user === 'undefined') {
           request.flash('error', `Vous devez être connecté pour accéder à l'administration.`);
           response.redirect('/connexion');  
-          return;
       }
-            // on est en modification
-            if(typeof request.params.id !== 'undefined') {
-              let repo = new RepoRealty();
-              repo.findById(request.params.id).then((realty) => {
-                  response.render('admin/realty/form', {form : realty});
-              }, () => {
-                  request.flash('error',`Le bien n'a pas été trouvé`)
-                  response.redirect('/admin/realty');
-              });   
-          } 
-          // on est en ajout
-          else {
-              response.render('admin/realty/form', {form: { realty: {}, contact : {}}});
-          }
+
+      if(typeof request.params.id != 'undefined'  && request.params.id != '') {
+          let repo = new RepoRealty();
+          repo.findById(request.params.id).then((realty) => {
+              response.render('admin/realty/form', { form : realty });
+          },() => {
+              request.flash('error', 'Une erreur est survenue.');
+              response.redirect('/admin/realty');
+          });
       }
+      else {
+          response.render('admin/realty/form', { form : { realty : {}, contact : {}}});
+      }
+  }
   
 
-  process(request, response) {
+  // process(request, response) {
 
-      let entity = {
-         realty : request.body.realty,
-         contact : request.body.contact
-      };
-      let repo = new RepoRealty();
-      if(typeof request.params.id !== 'undefined') {
-          repo.edit(request.params.id, entity).then((realty) => {
+  //     let entity = {
+  //        realty : request.body.realty,
+  //        contact : request.body.contact
+  //     };
+  //     let repo = new RepoRealty();
+  //     if(typeof request.params.id !== 'undefined') {
+  //         repo.edit(request.params.id, entity).then((realty) => {
+  //           request.flash('notify', 'Le bien a été modifié.');
+  //           response.redirect('/admin/realty');
+  //       }, () => {
+  //           request.flash('error',`Le bien n'a pas été modifié`)
+  //           response.redirect('/admin/realty');
+  //       });   
+  
+  //     }else {
+  //       repo.add(entity).then((Realty) => 
+  //       {
+  //         response.redirect('/admin')
+  //       })
+  //     }
+  // };
+
+  process(request, response) {  
+    if(typeof request.session.user === 'undefined') {
+        request.flash('error', `Vous devez être connecté pour accéder à l'administration.`);
+        response.redirect('/connexion');  
+    }
+    const entity =  {
+             realty : request.body.realty,
+             contact : request.body.contact
+          };
+
+    const repo = new RepoRealty();
+    let save;
+    if(typeof request.params.id != 'undefined'  && request.params.id != '') {
+        save = repo.edit(request.params.id, entity);
+    }
+    else {
+        save = repo.add(entity);
+    }
+    
+    save.then((realty) => {
+        if(typeof request.params.id != 'undefined'  && request.params.id != '') {
             request.flash('notify', 'Le bien a été modifié.');
+        } else {
+            request.flash('notify', 'Le bien a été créé.');
+        }
+
+        let photos = [];
+        
+        // Enregistrement des images
+        if(typeof request.files != 'undefined' && request.files != null) {
+            if(typeof request.files.photos[0] === 'undefined') {
+                request.files.photos = [request.files.photos];
+            }
+            const UploadImageProduct = new UploadImageProductService();
+            if(typeof request.files.photos != 'undefined' && request.files.photos.length > 0) {
+                
+                Object.values(request.files.photos).forEach(file => {
+                    photos.push(UploadImageProduct.moveFile(file, realty._id));
+                });
+            }                                
+        }
+        
+        Promise.all(photos).then((values) => {
+            request.flash('success', `Le bien a été enregistré`);
             response.redirect('/admin/realty');
-        }, () => {
-            request.flash('error',`Le bien n'a pas été modifié`)
-            response.redirect('/admin/realty');
-        });   
-  
-      }else {
-        repo.add(entity).then((Realty) => 
-        {
-          response.redirect('/admin')
-        })
-      }
-  };
+        });
+
+    }, (err) => {
+        response.render('admin/realty/form', { 
+            error : `L'enregistrement en base de données a échoué`, 
+            form : entity 
+        }); 
+    });
+
+}
+
+
 
   delete(request, response) {
     if(typeof request.session === 'undefined' || typeof request.session.user === 'undefined') {
