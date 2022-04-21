@@ -20,18 +20,7 @@ app.use(session({
     cookie: {maxAge: 3600000} 
 }));
 
-if(process.env.APP_ENV === 'dev'){
-    app.use((req,res,next) => {
-        req.session.user = {
-            email: 'test@test.com',
-            civility: '1',
-            firstname: 'Testy',
-            lastname: 'McTest',
-            phone: '0645454545'
-        };
-        next();
-    });
-}
+
 
 
 //--------------------------------------------------------------------
