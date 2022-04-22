@@ -5,6 +5,11 @@ const sassMiddleware = require('node-sass-middleware');
 require('dotenv').config()
 
 
+//--------------------------------------------------------------------
+//    middleware vérifiant le token csrf
+//--------------------------------------------------------------------
+
+
  
 //--------------------------------------------------------------------
 //     Parse les données en POST
@@ -20,7 +25,7 @@ app.use(session({
     cookie: {maxAge: 3600000} 
 }));
 
-
+// app.use(csrfProtection);
 
 
 //--------------------------------------------------------------------
@@ -28,6 +33,7 @@ app.use(session({
 //--------------------------------------------------------------------
 const flash = require('express-flash-messages');
 const req = require('express/lib/request');
+const { Session } = require('express-session');
 app.use(flash());
 
 //--------------------------------------------------------------------

@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 module.exports = class UploadImageProduct {
     moveFile(file, id_product) {
         return new Promise((resolve, reject) => {
@@ -8,12 +10,14 @@ module.exports = class UploadImageProduct {
         });
     }
 
-    // getFile(id_product){
-    //     return new Promise((resolve, reject) => {
-    //         let baseimage [] = DIR_IMG_PRODUCT
-    //     }
-
-            
-    //     ))
-    // }
+    getPictures(id_product) {
+        let filenames = [];
+        if(fs.existsSync(process.env.DIR_IMG_PRODUCT+id_product)) {
+            filenames = fs.readdirSync(process.env.DIR_IMG_PRODUCT+id_product);
+            filenames = filenames.map((filename) => {
+                return '/images/realties/'+id_product+'/'+filename;
+            });
+        }
+        return filenames;
+}
 }

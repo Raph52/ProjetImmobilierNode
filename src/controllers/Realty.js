@@ -1,5 +1,5 @@
 const RepoRealty = require('../repository/Realty');
-const UploadImageProductService = require('../services/UploadImageProduct')
+const UploadImageProductService = require('../services/UploadImageProductService')
 
 module.exports = class Realty {
     print(request, response) {

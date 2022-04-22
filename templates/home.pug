@@ -8,7 +8,11 @@ block content
                 .card.mb-4.col-3.mt-5.m-2(style='max-width: 540px;')
                     .row.g-0
                         .col-md-4
-                            img.img-fluid.rounded-start(src='/images/nophoto.png' alt='...')
+                            if realty.pictures && realty.pictures[0]
+                                img.card-img-top(src=realty.pictures[0], alt="no photo")
+                            else
+                                img.card-img-top(src="/images/no-photo.jpg", alt="no photo")
+                    .card-body
                         .col-md-8
                             .card-body
                                 h5.card-title #{realty.realty.city} 

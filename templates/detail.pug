@@ -4,8 +4,12 @@ extends layout.pug
 block content
 
 
-    img(src='/images/#{realty.id}/', alt='nophoto')  
-    img(src='/images/nophoto.png', alt='nophoto')
+    div
+        if realty.pictures && realty.pictures[0]
+            img.card-img-top(src=realty.pictures[0], alt="no photo")
+        else
+            img.card-img-top(src="/images/no-photo.jpg", alt="no photo")
+
     br
     if realty.realty.type_product == 1 
         span Maison #{realty.realty.area}m² - #{realty.realty.room} piece(s)
