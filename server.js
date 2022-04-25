@@ -1,20 +1,17 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const JwtService = require('./src/services/jwtService.js')
 const sassMiddleware = require('node-sass-middleware');
 require('dotenv').config()
 
 
-//--------------------------------------------------------------------
-//    middleware vérifiant le token csrf
-//--------------------------------------------------------------------
 
-
- 
 //--------------------------------------------------------------------
 //     Parse les données en POST
 //--------------------------------------------------------------------
 app.use(express.urlencoded({ extended: true }));
+
 
 //--------------------------------------------------------------------
 //      Ajout du midlleware express session
@@ -25,8 +22,6 @@ app.use(session({
     cookie: {maxAge: 3600000} 
 }));
 
-// app.use(csrfProtection);
-
 
 //--------------------------------------------------------------------
 //      Ajout du midlleware express flash messages
@@ -35,6 +30,14 @@ const flash = require('express-flash-messages');
 const req = require('express/lib/request');
 const { Session } = require('express-session');
 app.use(flash());
+
+
+//--------------------------------------------------------------------
+// Récupérer la session grace au JWT
+//--------------------------------------------------------------------
+app.use('/', (new JwtService).connectWithJwt);
+app.use('/admin', (new JwtService).connectAuthAdmin);
+
 
 //--------------------------------------------------------------------
 //      Mise en place du moteur de template
@@ -85,6 +88,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //--------------------------------------------------------------------
 require('./app/routes')(app);
  
+
 //--------------------------------------------------------------------
 //     Ecoute du serveur HTTP
 //--------------------------------------------------------------------
